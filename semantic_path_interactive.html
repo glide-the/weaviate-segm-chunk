@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "chilled", "label": "chilled", "shape": "dot"}, {"color": "lightblue", "id": "peanut", "label": "peanut", "shape": "dot"}, {"color": "red", "id": "iced", "label": "iced", "shape": "dot"}, {"color": "red", "id": "cr\u00e8me", "label": "cr\u00e8me", "shape": "dot"}, {"color": "lightblue", "id": "syrup", "label": "syrup", "shape": "dot"}, {"color": "lightblue", "id": "sour", "label": "sour", "shape": "dot"}, {"color": "red", "id": "jelly", "label": "jelly", "shape": "dot"}, {"color": "blue", "id": "toast", "label": "toast", "shape": "dot"}, {"color": "red", "id": "whipped", "label": "whipped", "shape": "dot"}, {"color": "blue", "id": "melts", "label": "melts", "shape": "dot"}, {"color": "lightblue", "id": "juice", "label": "juice", "shape": "dot"}, {"color": "lightblue", "id": "strawberries", "label": "strawberries", "shape": "dot"}, {"color": "lightblue", "id": "frosting", "label": "frosting", "shape": "dot"}, {"color": "lightblue", "id": "dessert", "label": "dessert", "shape": "dot"}, {"color": "lightblue", "id": "pie", "label": "pie", "shape": "dot"}, {"color": "lightblue", "id": "honey", "label": "honey", "shape": "dot"}, {"color": "lightblue", "id": "cupcakes", "label": "cupcakes", "shape": "dot"}, {"color": "lightblue", "id": "biscuits", "label": "biscuits", "shape": "dot"}, {"color": "lightblue", "id": "yummy", "label": "yummy", "shape": "dot"}, {"color": "lightblue", "id": "caramel", "label": "caramel", "shape": "dot"}, {"color": "green", "id": "cream", "label": "cream", "shape": "dot"}, {"color": "lightblue", "id": "flavoured", "label": "flavoured", "shape": "dot"}, {"color": "lightblue", "id": "tart", "label": "tart", "shape": "dot"}, {"color": "lightblue", "id": "pudding", "label": "pudding", "shape": "dot"}, {"color": "red", "id": "almond", "label": "almond", "shape": "dot"}, {"color": "lightblue", "id": "vanilla", "label": "vanilla", "shape": "dot"}, {"color": "lightblue", "id": "cake", "label": "cake", "shape": "dot"}, {"color": "blue", "id": "yogurt", "label": "yogurt", "shape": "dot"}, {"color": "lightblue", "id": "cranberry", "label": "cranberry", "shape": "dot"}, {"color": "lightblue", "id": "creme", "label": "creme", "shape": "dot"}, {"color": "lightblue", "id": "mousse", "label": "mousse", "shape": "dot"}, {"color": "lightblue", "id": "pineapple", "label": "pineapple", "shape": "dot"}, {"color": "lightblue", "id": "chocolate", "label": "chocolate", "shape": "dot"}, {"color": "lightblue", "id": "pies", "label": "pies", "shape": "dot"}, {"color": "lightblue", "id": "peach", "label": "peach", "shape": "dot"}, {"color": "lightblue", "id": "cheesecake", "label": "cheesecake", "shape": "dot"}, {"color": "lightblue", "id": "custard", "label": "custard", "shape": "dot"}, {"color": "lightblue", "id": "watermelon", "label": "watermelon", "shape": "dot"}, {"color": "lightblue", "id": "flavored", "label": "flavored", "shape": "dot"}, {"color": "lightblue", "id": "toffee", "label": "toffee", "shape": "dot"}, {"color": "lightblue", "id": "jam", "label": "jam", "shape": "dot"}, {"color": "lightblue", "id": "lemonade", "label": "lemonade", "shape": "dot"}, {"color": "lightblue", "id": "fudge", "label": "fudge", "shape": "dot"}, {"color": "lightblue", "id": "icing", "label": "icing", "shape": "dot"}, {"color": "lightblue", "id": "blueberry", "label": "blueberry", "shape": "dot"}, {"color": "lightblue", "id": "frozen", "label": "frozen", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "cream", "to": "cr\u00e8me"}, {"arrows": "to", "from": "cream", "to": "iced"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "cranberry"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "cranberry"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "syrup"}, {"arrows": "to", "from": "cream", "to": "iced"}, {"arrows": "to", "from": "cream", "to": "custard"}, {"arrows": "to", "from": "cream", "to": "iced"}, {"arrows": "to", "from": "cream", "to": "iced"}, {"arrows": "to", "from": "cream", "to": "sour"}, {"arrows": "to", "from": "cream", "to": "creme"}, {"arrows": "to", "from": "cream", "to": "creme"}, {"arrows": "to", "from": "cream", "to": "cr\u00e8me"}, {"arrows": "to", "from": "cream", "to": "watermelon"}, {"arrows": "to", "from": "cream", "to": "syrup"}, {"arrows": "to", "from": "cream", "to": "yogurt"}, {"arrows": "to", "from": "cream", "to": "jelly"}, {"arrows": "to", "from": "cream", "to": "almond"}, {"arrows": "to", "from": "cream", "to": "tart"}, {"arrows": "to", "from": "cr\u00e8me", "to": "toffee"}, {"arrows": "to", "from": "cr\u00e8me", "to": "peach"}, {"arrows": "to", "from": "cr\u00e8me", "to": "mousse"}, {"arrows": "to", "from": "cr\u00e8me", "to": "pie"}, {"arrows": "to", "from": "toffee", "to": "vanilla"}, {"arrows": "to", "from": "toffee", "to": "custard"}, {"arrows": "to", "from": "toffee", "to": "vanilla"}, {"arrows": "to", "from": "toffee", "to": "vanilla"}, {"arrows": "to", "from": "vanilla", "to": "almond"}, {"arrows": "to", "from": "vanilla", "to": "almond"}, {"arrows": "to", "from": "vanilla", "to": "jam"}, {"arrows": "to", "from": "vanilla", "to": "tart"}, {"arrows": "to", "from": "almond", "to": "tart"}, {"arrows": "to", "from": "almond", "to": "whipped"}, {"arrows": "to", "from": "almond", "to": "toast"}, {"arrows": "to", "from": "almond", "to": "toast"}, {"arrows": "to", "from": "almond", "to": "melts"}, {"arrows": "to", "from": "tart", "to": "melts"}, {"arrows": "to", "from": "tart", "to": "whipped"}, {"arrows": "to", "from": "tart", "to": "whipped"}, {"arrows": "to", "from": "melts", "to": "whipped"}, {"arrows": "to", "from": "melts", "to": "frozen"}, {"arrows": "to", "from": "melts", "to": "whipped"}, {"arrows": "to", "from": "jelly", "to": "peach"}, {"arrows": "to", "from": "jelly", "to": "whipped"}, {"arrows": "to", "from": "jelly", "to": "juice"}, {"arrows": "to", "from": "jelly", "to": "juice"}, {"arrows": "to", "from": "jelly", "to": "icing"}, {"arrows": "to", "from": "jelly", "to": "yogurt"}, {"arrows": "to", "from": "jelly", "to": "yogurt"}, {"arrows": "to", "from": "peach", "to": "pineapple"}, {"arrows": "to", "from": "peach", "to": "pineapple"}, {"arrows": "to", "from": "pineapple", "to": "sour"}, {"arrows": "to", "from": "pineapple", "to": "flavored"}, {"arrows": "to", "from": "sour", "to": "yogurt"}, {"arrows": "to", "from": "sour", "to": "toast"}, {"arrows": "to", "from": "sour", "to": "whipped"}, {"arrows": "to", "from": "yogurt", "to": "whipped"}, {"arrows": "to", "from": "yogurt", "to": "yummy"}, {"arrows": "to", "from": "yogurt", "to": "yummy"}, {"arrows": "to", "from": "yogurt", "to": "whipped"}, {"arrows": "to", "from": "yogurt", "to": "yummy"}, {"arrows": "to", "from": "yogurt", "to": "whipped"}, {"arrows": "to", "from": "yogurt", "to": "jam"}, {"arrows": "to", "from": "whipped", "to": "melts"}, {"arrows": "to", "from": "whipped", "to": "pudding"}, {"arrows": "to", "from": "whipped", "to": "strawberries"}, {"arrows": "to", "from": "whipped", "to": "toast"}, {"arrows": "to", "from": "whipped", "to": "toast"}, {"arrows": "to", "from": "whipped", "to": "yummy"}, {"arrows": "to", "from": "cranberry", "to": "blueberry"}, {"arrows": "to", "from": "cranberry", "to": "vanilla"}, {"arrows": "to", "from": "blueberry", "to": "almond"}, {"arrows": "to", "from": "blueberry", "to": "sour"}, {"arrows": "to", "from": "juice", "to": "honey"}, {"arrows": "to", "from": "juice", "to": "flavored"}, {"arrows": "to", "from": "juice", "to": "caramel"}, {"arrows": "to", "from": "honey", "to": "almond"}, {"arrows": "to", "from": "flavored", "to": "iced"}, {"arrows": "to", "from": "flavored", "to": "flavoured"}, {"arrows": "to", "from": "flavored", "to": "yogurt"}, {"arrows": "to", "from": "iced", "to": "whipped"}, {"arrows": "to", "from": "iced", "to": "yogurt"}, {"arrows": "to", "from": "iced", "to": "lemonade"}, {"arrows": "to", "from": "iced", "to": "chilled"}, {"arrows": "to", "from": "icing", "to": "frosting"}, {"arrows": "to", "from": "frosting", "to": "fudge"}, {"arrows": "to", "from": "frosting", "to": "cake"}, {"arrows": "to", "from": "fudge", "to": "cheesecake"}, {"arrows": "to", "from": "fudge", "to": "chocolate"}, {"arrows": "to", "from": "cheesecake", "to": "cake"}, {"arrows": "to", "from": "cake", "to": "chocolate"}, {"arrows": "to", "from": "cake", "to": "cupcakes"}, {"arrows": "to", "from": "yummy", "to": "whipped"}, {"arrows": "to", "from": "yummy", "to": "whipped"}, {"arrows": "to", "from": "yummy", "to": "caramel"}, {"arrows": "to", "from": "yummy", "to": "toast"}, {"arrows": "to", "from": "syrup", "to": "juice"}, {"arrows": "to", "from": "syrup", "to": "flavored"}, {"arrows": "to", "from": "caramel", "to": "toffee"}, {"arrows": "to", "from": "caramel", "to": "toffee"}, {"arrows": "to", "from": "caramel", "to": "vanilla"}, {"arrows": "to", "from": "caramel", "to": "toffee"}, {"arrows": "to", "from": "custard", "to": "whipped"}, {"arrows": "to", "from": "custard", "to": "pudding"}, {"arrows": "to", "from": "pudding", "to": "pie"}, {"arrows": "to", "from": "pie", "to": "pies"}, {"arrows": "to", "from": "pie", "to": "peanut"}, {"arrows": "to", "from": "pies", "to": "biscuits"}, {"arrows": "to", "from": "biscuits", "to": "fudge"}, {"arrows": "to", "from": "chocolate", "to": "caramel"}, {"arrows": "to", "from": "chocolate", "to": "caramel"}, {"arrows": "to", "from": "jam", "to": "melts"}, {"arrows": "to", "from": "jam", "to": "frozen"}, {"arrows": "to", "from": "lemonade", "to": "blueberry"}, {"arrows": "to", "from": "lemonade", "to": "iced"}, {"arrows": "to", "from": "strawberries", "to": "almond"}, {"arrows": "to", "from": "creme", "to": "cr\u00e8me"}, {"arrows": "to", "from": "creme", "to": "cr\u00e8me"}, {"arrows": "to", "from": "flavoured", "to": "whipped"}, {"arrows": "to", "from": "mousse", "to": "frosting"}, {"arrows": "to", "from": "cupcakes", "to": "dessert"}, {"arrows": "to", "from": "dessert", "to": "chocolate"}, {"arrows": "to", "from": "peanut", "to": "whipped"}, {"arrows": "to", "from": "watermelon", "to": "lemonade"}, {"arrows": "to", "from": "toast", "to": "yogurt"}, {"arrows": "to", "from": "frozen", "to": "chilled"}, {"arrows": "to", "color": "black", "from": "cream", "to": "almond", "width": 3}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
