@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "tastes", "label": "tastes", "shape": "dot"}, {"color": "lightblue", "id": "taste", "label": "taste", "shape": "dot"}, {"color": "red", "id": "sweet", "label": "sweet", "shape": "dot"}, {"color": "lightblue", "id": "cheese", "label": "cheese", "shape": "dot"}, {"color": "lightblue", "id": "bread", "label": "bread", "shape": "dot"}, {"color": "red", "id": "delicious", "label": "delicious", "shape": "dot"}, {"color": "lightblue", "id": "baked", "label": "baked", "shape": "dot"}, {"color": "lightblue", "id": "flavour", "label": "flavour", "shape": "dot"}, {"color": "blue", "id": "fresh", "label": "fresh", "shape": "dot"}, {"color": "lightblue", "id": "freshly", "label": "freshly", "shape": "dot"}, {"color": "blue", "id": "treats", "label": "treats", "shape": "dot"}, {"color": "green", "id": "chocolate", "label": "chocolate", "shape": "dot"}, {"color": "red", "id": "dessert", "label": "dessert", "shape": "dot"}, {"color": "lightblue", "id": "pie", "label": "pie", "shape": "dot"}, {"color": "lightblue", "id": "cooked", "label": "cooked", "shape": "dot"}, {"color": "lightblue", "id": "snacks", "label": "snacks", "shape": "dot"}, {"color": "lightblue", "id": "snack", "label": "snack", "shape": "dot"}, {"color": "lightblue", "id": "peanut", "label": "peanut", "shape": "dot"}, {"color": "lightblue", "id": "juice", "label": "juice", "shape": "dot"}, {"color": "green", "id": "milk", "label": "milk", "shape": "dot"}, {"color": "lightblue", "id": "butter", "label": "butter", "shape": "dot"}, {"color": "red", "id": "tasty", "label": "tasty", "shape": "dot"}, {"color": "lightblue", "id": "ingredients", "label": "ingredients", "shape": "dot"}, {"color": "green", "id": "meal", "label": "meal", "shape": "dot"}, {"color": "green", "id": "honey", "label": "honey", "shape": "dot"}, {"color": "lightblue", "id": "frozen", "label": "frozen", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "tastes", "title": "Distance: 0.100", "to": "taste"}, {"arrows": "to", "from": "taste", "title": "Distance: 0.261", "to": "sweet"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.399", "to": "cheese"}, {"arrows": "to", "from": "cheese", "title": "Distance: 0.217", "to": "bread"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.276", "to": "delicious"}, {"arrows": "to", "from": "delicious", "title": "Distance: 0.252", "to": "baked"}, {"arrows": "to", "from": "baked", "title": "Distance: 0.418", "to": "flavour"}, {"arrows": "to", "from": "flavour", "title": "Distance: 0.338", "to": "fresh"}, {"arrows": "to", "from": "freshly", "title": "Distance: 0.215", "to": "fresh"}, {"arrows": "to", "from": "fresh", "title": "Distance: 0.481", "to": "treats"}, {"arrows": "to", "from": "chocolate", "title": "Distance: 0.288", "to": "dessert"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.411", "to": "sweet"}, {"arrows": "to", "from": "chocolate", "title": "Distance: 0.356", "to": "pie"}, {"arrows": "to", "from": "pie", "title": "Distance: 0.509", "to": "treats"}, {"arrows": "to", "from": "treats", "title": "Distance: 0.436", "to": "sweet"}, {"arrows": "to", "from": "delicious", "title": "Distance: 0.252", "to": "cooked"}, {"arrows": "to", "from": "tastes", "title": "Distance: 0.100", "to": "taste"}, {"arrows": "to", "from": "taste", "title": "Distance: 0.261", "to": "sweet"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.436", "to": "treats"}, {"arrows": "to", "from": "treats", "title": "Distance: 0.379", "to": "snacks"}, {"arrows": "to", "from": "snacks", "title": "Distance: 0.084", "to": "snack"}, {"arrows": "to", "from": "snack", "title": "Distance: 0.373", "to": "peanut"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.411", "to": "dessert"}, {"arrows": "to", "from": "pie", "title": "Distance: 0.548", "to": "juice"}, {"arrows": "to", "from": "juice", "title": "Distance: 0.562", "to": "treats"}, {"arrows": "to", "from": "milk", "title": "Distance: 0.298", "to": "butter"}, {"arrows": "to", "from": "butter", "title": "Distance: 0.358", "to": "pie"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.340", "to": "fresh"}, {"arrows": "to", "from": "fresh", "title": "Distance: 0.321", "to": "tasty"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.192", "to": "delicious"}, {"arrows": "to", "from": "delicious", "title": "Distance: 0.331", "to": "ingredients"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.261", "to": "taste"}, {"arrows": "to", "from": "meal", "title": "Distance: 0.359", "to": "dessert"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.438", "to": "treats"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.261", "to": "taste"}, {"arrows": "to", "from": "taste", "title": "Distance: 0.100", "to": "tastes"}, {"arrows": "to", "from": "tastes", "title": "Distance: 0.261", "to": "tasty"}, {"arrows": "to", "from": "tasty", "title": "Distance: 0.118", "to": "delicious"}, {"arrows": "to", "from": "delicious", "title": "Distance: 0.263", "to": "fresh"}, {"arrows": "to", "from": "tasty", "title": "Distance: 0.365", "to": "treats"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.436", "to": "treats"}, {"arrows": "to", "from": "pie", "title": "Distance: 0.549", "to": "ingredients"}, {"arrows": "to", "from": "honey", "title": "Distance: 0.357", "to": "sweet"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.469", "to": "ingredients"}, {"arrows": "to", "from": "tasty", "title": "Distance: 0.311", "to": "dessert"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.491", "to": "freshly"}, {"arrows": "to", "from": "freshly", "title": "Distance: 0.215", "to": "fresh"}, {"arrows": "to", "from": "fresh", "title": "Distance: 0.352", "to": "frozen"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.411", "to": "dessert"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.292", "to": "baked"}, {"arrows": "to", "from": "sweet", "title": "Distance: 0.276", "to": "delicious"}, {"arrows": "to", "from": "snack", "title": "Distance: 0.352", "to": "dessert"}, {"arrows": "to", "from": "dessert", "title": "Distance: 0.192", "to": "delicious"}, {"arrows": "to", "from": "delicious", "title": "Distance: 0.118", "to": "tasty"}, {"arrows": "to", "from": "tasty", "title": "Distance: 0.211", "to": "taste"}, {"arrows": "to", "from": "taste", "title": "Distance: 0.261", "to": "sweet"}, {"arrows": "to", "from": "juice", "title": "Distance: 0.562", "to": "treats"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
