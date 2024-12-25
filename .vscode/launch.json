@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "late_chunking.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/mnt/ceph/develop/jiawei/weaviate-segm-chunk/late_chunking.py",
+            "console": "integratedTerminal",
+            "python": "${command:python.interpreterPath}",
+            "justMyCode": false,
+            "env": {
+                "ZHIPUAI_API_KEY": "ad08946be7341503f164c441f2a247c3.wRDvUO0r3SqRTbrS",
+                "http_proxy": "http://127.0.0.1:7890",
+                "https_proxy": "http://127.0.0.1:7890"
+            },
+            "args": [
+                "--cuda-device",
+                "0"
+            ]
+        },
+        
+        {
+            "name": "late_chunking_jina-v3.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/mnt/ceph/develop/jiawei/weaviate-segm-chunk/late_chunking_jina-v3.py",
+            "console": "integratedTerminal",
+            "python": "${command:python.interpreterPath}",
+            "justMyCode": false,
+            "env": {
+                "ZHIPUAI_API_KEY": "ad08946be7341503f164c441f2a247c3.wRDvUO0r3SqRTbrS",
+                "http_proxy": "http://127.0.0.1:7890",
+                "https_proxy": "http://127.0.0.1:7890"
+            },
+            "args": [
+                "--cuda-device",
+                "0"
+            ]
+        }
+    ]
+}
