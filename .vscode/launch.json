@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "late_chunking.py",
+            "name": "late_chunking_ModernBERT.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "/mnt/ceph/develop/jiawei/weaviate-segm-chunk/late_chunking.py",
+            "program": "/mnt/ceph/develop/jiawei/weaviate-segm-chunk/late_chunking_ModernBERT.py",
             "console": "integratedTerminal",
             "python": "${command:python.interpreterPath}",
             "justMyCode": false,

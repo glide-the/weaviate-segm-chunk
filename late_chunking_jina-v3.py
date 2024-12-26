@@ -74,9 +74,9 @@ def late_chunking(
  
 
 if __name__ == "__main__":
-    
-    document = "Berlin is the capital and largest city of Germany, both by area and by population. Its more than 3.85 million inhabitants make it the European Union's most populous city, as measured by population within city limits. The city is also one of the states of Germany, and is the third smallest state in the country in terms of area."
- 
+    with open("RoleLLM  安全指令方案.md", "r", encoding="utf-8") as f:
+        document = f.read()
+       
     # load model and tokenizer
     tokenizer = AutoTokenizer.from_pretrained('/mnt/ceph/develop/jiawei/model_checkpoint/jina-embeddings-v3', trust_remote_code=True)
     model = AutoModel.from_pretrained('/mnt/ceph/develop/jiawei/model_checkpoint/jina-embeddings-v3', trust_remote_code=True).to(dtype=torch.float16, device='cuda:0') 
